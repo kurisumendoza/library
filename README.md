@@ -1,1 +1,1 @@
-# library
+This is the Library project from The Odin Project's JavaScript course.
