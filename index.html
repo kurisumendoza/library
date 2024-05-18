@@ -1,13 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Book List</title>
-  <link rel="stylesheet" href="styles/styles.css">
-  <script defer src="script/script.js"></script>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Books List</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <script defer src="script/script.js"></script>
+  </head>
+  <body>
+    <section id="header">
+      <h1>MyBooksList</h1>
+      <div>
+        <button class="add-book-btn">Add Book</button>
+        <button class="edit-book-btn">Edit Book</button>
+      </div>
+    </section>
+    <div class="add-book hidden">
+      <div class="add-book-header">
+        <p>Add Book</p>
+        <button class="close-btn">&times;</button>
+      </div>
+      <form class="add-book-form">
+        <label for="add-title">Title</label>
+        <input type="text" name="add-title" id="add-title" />
+        <br />
+        <label for="add-author">Author</label>
+        <input type="text" name="add-author" id="add-author" />
+        <br />
+        <label for="add-pages">Number of Pages</label>
+        <input type="number" name="add-pages" id="add-pages" />
+        <br />
+        <label for="add-status">Status</label>
+        <select name="add-status" id="add-status">
+          <option value="Finished">Finished</option>
+          <option value="Reading">Reading</option>
+          <option value="To Read">To Read</option>
+        </select>
+        <br />
+        <button type="submit" class="submit">Submit</button>
+      </form>
+    </div>
+    <div class="add-book-overlay hidden"></div>
+    <section id="nav">
+      <div id="nav-status">
+        <a href="">Reading</a>
+        <a href="">Finished</a>
+        <a href="">To Read</a>
+      </div>
+      <input type="text" id="search" placeholder="Search Book" />
+    </section>
+    <section id="main">
+      <div id="tags">
+        <p>#</p>
+        <p>Image</p>
+        <p>Title</p>
+        <p>Author</p>
+        <p>Pages</p>
+        <p>Status</p>
+      </div>
+      <div id="content">
+        <!-- <div class="book-entry">
+          <p>1</p>
+          <img src="images/the hobbit.jpeg" alt="" style="max-width: 50px" />
+          <p class="title">The Hobbit</p>
+          <p>J.R.R. Tolkien</p>
+          <p>295</p>
+          <p>not read</p> -->
+        </div>
+      </div>
+    </section>
+    <section id="footer">
+      <p>Copyright 2024 kurisumendoza</p>
+    </section>
+  </body>
 </html>
