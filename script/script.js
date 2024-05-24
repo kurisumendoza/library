@@ -23,8 +23,9 @@ const Book = function (title, author, pages, readStatus) {
   this.readStatus = readStatus;
 };
 
-const displayLibrary = function () {
-  myLibrary.forEach((book, i) => {
+const displayLibrary = function (library) {
+  booksList.innerHTML = '';
+  library.forEach((book, i) => {
     const newBook = bookEntryDetails(book, i + 1);
     booksList.insertAdjacentHTML('beforeend', newBook);
   });
@@ -73,6 +74,8 @@ const newBookEntry = function () {
 
   addBookToLibrary(newBookTitle, newBookAuthor, newBookPages, newBookStatus);
 
+  if (!navStatusFilter.classList.contains('all-books'))
+    filterBooksBy('All Books');
   clearBookForm();
   closeAddBookModal();
 };
@@ -164,6 +167,13 @@ const closeEditBookModal = function () {
 const filterBooksBy = function (status) {
   const filteredBooks = myLibrary.filter((book) => book.readStatus === status);
   console.log(filteredBooks);
+  if (status === 'All Books') {
+    displayLibrary(myLibrary);
+    navStatusFilter.classList.add('all-books');
+  } else {
+    displayLibrary(filteredBooks);
+    navStatusFilter.classList.remove('all-books');
+  }
 };
 
 const sampleBooks = function (title, author, pages, readStatus) {
@@ -172,14 +182,14 @@ const sampleBooks = function (title, author, pages, readStatus) {
 
 sampleBooks('The Hobbit', 'J.R.R. Tolkien', 295, 'Finished');
 sampleBooks(
-  "Harry Potter and the Sorcerer's Stone",
+  "Harry Potter and the Philosopher's Stone",
   'J.K. Rowling',
   320,
   'Reading'
 );
 sampleBooks('Game of Thrones', 'G.R.R. Martin', '143', 'To Read');
 
-displayLibrary();
+displayLibrary(myLibrary);
 
 addBookBtn.addEventListener('click', addNewBook);
 addBookCloseBtn.addEventListener('click', closeAddBookModal);
@@ -223,8 +233,6 @@ navStatusFilter.addEventListener('click', function (e) {
     console.log(e.target.textContent);
   }
 });
-
-console.log(myLibrary[1].readStatus);
 
 // FINISHED
 // 1. When EDIT BOOK clicked, turn # into a pencil icon.
