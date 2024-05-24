@@ -15,6 +15,8 @@ const editBookSubmit = document.querySelector('.edit-book-submit');
 const deleteBookBtn = document.querySelector('.delete-book');
 const finishEditBtn = document.querySelector('.finish-edit-btn');
 const navStatusFilter = document.getElementById('nav-status');
+const searchInput = document.getElementById('search');
+const searchBookBtn = document.getElementById('search-button');
 
 const Book = function (title, author, pages, readStatus) {
   this.title = title;
@@ -166,12 +168,25 @@ const closeEditBookModal = function () {
 
 const filterBooksBy = function (status) {
   const filteredBooks = myLibrary.filter((book) => book.readStatus === status);
-  console.log(filteredBooks);
   if (status === 'All Books') {
     displayLibrary(myLibrary);
     navStatusFilter.classList.add('all-books');
   } else {
     displayLibrary(filteredBooks);
+    navStatusFilter.classList.remove('all-books');
+  }
+};
+
+const searchBook = function () {
+  const bookQuery = document.getElementById('search').value.toLowerCase();
+  const bookMatch = myLibrary.filter(
+    (book) =>
+      book.title.toLowerCase().includes(bookQuery) ||
+      book.author.toLowerCase().includes(bookQuery)
+  );
+  if (bookMatch.length < 1) alert('Book not found.');
+  else {
+    displayLibrary(bookMatch);
     navStatusFilter.classList.remove('all-books');
   }
 };
@@ -231,6 +246,17 @@ navStatusFilter.addEventListener('click', function (e) {
   if (e.target.classList.contains('nav-link')) {
     filterBooksBy(e.target.textContent);
     console.log(e.target.textContent);
+  }
+});
+searchBookBtn.addEventListener('click', function (e) {
+  e.preventDefault();
+  searchBook();
+  searchInput.value = '';
+});
+searchInput.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+    searchBook();
+    searchInput.value = '';
   }
 });
 
