@@ -19,6 +19,7 @@
       <div>
         <button class="add-book-btn">Add Book</button>
         <button class="edit-book-btn">Edit Book</button>
+        <button class="finish-edit-btn hidden">Finish Editing</button>
       </div>
     </section>
     <div class="add-book hidden">
@@ -43,15 +44,44 @@
           <option value="To Read">To Read</option>
         </select>
         <br />
-        <button type="submit" class="submit">Submit</button>
+        <button type="submit" class="add-book-submit">Submit</button>
       </form>
     </div>
-    <div class="add-book-overlay hidden"></div>
+    <div class="edit-book hidden">
+      <div class="edit-book-header">
+        <p>Edit Book</p>
+        <button class="edit-close-btn">&times;</button>
+      </div>
+      <form class="edit-book-form">
+        <label for="edit-title">Title</label>
+        <input type="text" name="edit-title" id="edit-title" />
+        <br />
+        <label for="edit-author">Author</label>
+        <input type="text" name="edit-author" id="edit-author" />
+        <br />
+        <label for="edit-pages">Number of Pages</label>
+        <input type="number" name="edit-pages" id="edit-pages" />
+        <br />
+        <label for="edit-status">Status</label>
+        <select name="edit-status" id="edit-status">
+          <option value="Finished">Finished</option>
+          <option value="Reading">Reading</option>
+          <option value="To Read">To Read</option>
+        </select>
+        <br />
+        <div class="edit-buttons">
+          <button type="submit" class="edit-book-submit">Submit</button>
+          <button class="delete-book">Delete</button>
+        </div>
+      </form>
+    </div>
+    <div class="book-form-overlay hidden"></div>
     <section id="nav">
       <div id="nav-status">
-        <a href="">Reading</a>
-        <a href="">Finished</a>
-        <a href="">To Read</a>
+        <a class="nav-link nav-all">All Books</a>
+        <a class="nav-link nav-reading">Reading</a>
+        <a class="nav-link nav-finished">Finished</a>
+        <a class="nav-link nav-to-read">To Read</a>
       </div>
       <input type="text" id="search" placeholder="Search Book" />
     </section>
@@ -64,16 +94,7 @@
         <p>Pages</p>
         <p>Status</p>
       </div>
-      <div id="content">
-        <!-- <div class="book-entry">
-          <p>1</p>
-          <img src="images/the hobbit.jpeg" alt="" style="max-width: 50px" />
-          <p class="title">The Hobbit</p>
-          <p>J.R.R. Tolkien</p>
-          <p>295</p>
-          <p>not read</p> -->
-        </div>
-      </div>
+      <div id="content"></div>
     </section>
     <section id="footer">
       <p>Copyright 2024 kurisumendoza</p>

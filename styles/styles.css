@@ -13,7 +13,9 @@ body {
 }
 
 button,
-select {
+select,
+a,
+.book-entry > img:first-child {
   cursor: pointer;
 }
 
@@ -38,14 +40,16 @@ select {
 }
 
 .add-book-btn,
-.edit-book-btn {
+.edit-book-btn,
+.finish-edit-btn {
   background: none;
   border: 3px solid #2f52a2;
   font-size: 1rem;
   padding: 0.5rem 1.5rem;
 }
 
-.add-book {
+.add-book,
+.edit-book {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -54,10 +58,12 @@ select {
   background-color: #e1e7f5;
   border: 3px solid #1c439b;
   padding: 1.5rem;
+  padding-bottom: 2.5rem;
   z-index: 10;
 }
 
-.add-book-header {
+.add-book-header,
+.edit-book-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -66,52 +72,70 @@ select {
   margin-bottom: 1.5rem;
 }
 
-.close-btn {
+.close-btn,
+.edit-close-btn {
   border-style: none;
   background: none;
   font-weight: bold;
   font-size: 1.5rem;
 }
 
-.add-book-overlay {
+.book-form-overlay {
   position: fixed;
   inset: 0;
   background-color: #333333;
   opacity: 50%;
 }
 
-.add-book-form {
+.add-book-form,
+.edit-book-form {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-.add-book-form input {
+.add-book-form input,
+.edit-book-form input {
   padding: 0.5rem;
   border: 1.5px solid #1c439b;
 }
 
-.add-book-form input:focus {
+.add-book-form input:focus,
+.edit-book-form input:focus {
   outline: none;
 }
 
-.add-book-form select {
+.add-book-form select,
+.edit-book-form select {
   padding: 0.5rem;
   background-color: white;
   border: 1.5px solid #1c439b;
 }
 
-.add-book-form option {
+.add-book-form option,
+.edit-book-form option {
   font-size: 1rem;
 }
 
-.submit {
+.add-book-submit,
+.edit-book-submit,
+.delete-book {
   color: white;
   font-weight: bold;
   font-size: 1rem;
   padding: 0.5rem;
   border: none;
   background-color: #2f52a2;
+  flex: 1;
+}
+
+.edit-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete-book {
+  margin-left: 1.25rem;
 }
 
 .hidden {
