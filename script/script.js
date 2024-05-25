@@ -53,46 +53,54 @@ const bookEntryDetails = function (book, num) {
     </div>`;
 };
 
-const addNewBook = function () {
-  addBookModal.classList.remove('hidden');
-  bookFormOverlay.classList.remove('hidden');
+const addBookProcess = function () {
+  const addNewBook = function () {
+    addBookModal.classList.remove('hidden');
+    bookFormOverlay.classList.remove('hidden');
+  };
+
+  const closeAddBookModal = function () {
+    addBookModal.classList.add('hidden');
+    bookFormOverlay.classList.add('hidden');
+    addBookForm.reset();
+  };
+
+  const newBookEntry = function () {
+    const newBookTitle = document.getElementById('add-title').value;
+    const newBookAuthor = document.getElementById('add-author').value;
+    const newBookPages = document.getElementById('add-pages').value;
+    const newBookStatus = document.getElementById('add-status').value;
+
+    if (
+      newBookTitle.trim() === '' ||
+      newBookAuthor.trim() === '' ||
+      newBookPages.trim() === ''
+    ) {
+      alert('Please fill out required fields.');
+    } else if (Number(newBookPages.trim()) < 1) {
+      alert("Number of pages can't be less than 0.");
+    } else {
+      addBookToLibrary(
+        newBookTitle,
+        newBookAuthor,
+        newBookPages,
+        newBookStatus
+      );
+
+      if (!navStatusFilter.classList.contains('all-books'))
+        filterBooksBy('All Books');
+      addBookForm.reset();
+      closeAddBookModal();
+    }
+  };
+
+  return {
+    addNewBook,
+    closeAddBookModal,
+    newBookEntry,
+  };
 };
-
-const closeAddBookModal = function () {
-  addBookModal.classList.add('hidden');
-  bookFormOverlay.classList.add('hidden');
-  clearBookForm();
-};
-
-const clearBookForm = function () {
-  addBookForm.reset();
-};
-
-const newBookEntry = function () {
-  const newBookTitle = document.getElementById('add-title').value;
-  const newBookAuthor = document.getElementById('add-author').value;
-  const newBookPages = document.getElementById('add-pages').value;
-  const newBookStatus = document.getElementById('add-status').value;
-
-  addBookToLibrary(newBookTitle, newBookAuthor, newBookPages, newBookStatus);
-
-  if (!navStatusFilter.classList.contains('all-books'))
-    filterBooksBy('All Books');
-  clearBookForm();
-  closeAddBookModal();
-};
-
-const pickBookToEdit = function () {
-  [...booksList.children].forEach((book, i) => {
-    const editPicker = document.createElement('img');
-    editPicker.src = 'images/edit-button.svg';
-    editPicker.setAttribute('data-number', i);
-    book.firstElementChild.replaceWith(editPicker);
-  });
-  addBookBtn.classList.add('hidden');
-  editBookBtn.classList.add('hidden');
-  finishEditBtn.classList.remove('hidden');
-};
+const addBook = addBookProcess();
 
 const editBookProcess = function () {
   let index;
@@ -100,6 +108,18 @@ const editBookProcess = function () {
   const editBookAuthor = document.getElementById('edit-author');
   const editBookPages = document.getElementById('edit-pages');
   const editBookStatus = document.getElementById('edit-status');
+
+  const pickBookToEdit = function () {
+    [...booksList.children].forEach((book, i) => {
+      const editPicker = document.createElement('img');
+      editPicker.src = 'images/edit-button.svg';
+      editPicker.setAttribute('data-number', i);
+      book.firstElementChild.replaceWith(editPicker);
+    });
+    addBookBtn.classList.add('hidden');
+    editBookBtn.classList.add('hidden');
+    finishEditBtn.classList.remove('hidden');
+  };
 
   const editBookEntry = function (num) {
     index = num;
@@ -113,19 +133,46 @@ const editBookProcess = function () {
   };
 
   const saveEditBookEntry = function () {
-    myLibrary[index] = new Book(
-      editBookTitle.value,
-      editBookAuthor.value,
-      editBookPages.value,
-      editBookStatus.value
-    );
+    if (
+      editBookTitle.value.trim() === '' ||
+      editBookAuthor.value.trim() === '' ||
+      editBookPages.value.trim() === ''
+    ) {
+      alert('Please fill out required fields.');
+    } else if (Number(editBookPages.value.trim()) < 1) {
+      alert("Number of pages can't be less than 0.");
+    } else {
+      myLibrary[index] = new Book(
+        editBookTitle.value,
+        editBookAuthor.value,
+        editBookPages.value,
+        editBookStatus.value
+      );
 
-    const editedBook = bookEntryDetails(myLibrary[index], Number(index) + 1);
+      const editedBook = bookEntryDetails(myLibrary[index], Number(index) + 1);
 
-    booksList.children[index].remove();
-    booksList.children[index].insertAdjacentHTML('beforebegin', editedBook);
-    pickBookToEdit();
-    closeEditBookModal();
+      booksList.children[index].remove();
+      booksList.children[index].insertAdjacentHTML('beforebegin', editedBook);
+      pickBookToEdit();
+      closeEditBookModal();
+    }
+  };
+
+  const finishEditing = function () {
+    [...booksList.children].forEach((book, i) => {
+      const returnToNum = document.createElement('p');
+      book.firstElementChild.replaceWith(returnToNum);
+      returnToNum.textContent = `${i + 1}`;
+    });
+    addBookBtn.classList.remove('hidden');
+    editBookBtn.classList.remove('hidden');
+    finishEditBtn.classList.add('hidden');
+  };
+
+  const closeEditBookModal = function () {
+    editBookModal.classList.add('hidden');
+    bookFormOverlay.classList.add('hidden');
+    addBookForm.reset();
   };
 
   const confirmDelete = function () {
@@ -141,30 +188,16 @@ const editBookProcess = function () {
   };
 
   return {
+    pickBookToEdit,
     editBookEntry,
     saveEditBookEntry,
+    finishEditing,
+    closeEditBookModal,
     confirmDelete,
     deleteBook,
   };
 };
 const editBook = editBookProcess();
-
-const finishEditing = function () {
-  [...booksList.children].forEach((book, i) => {
-    const returnToNum = document.createElement('p');
-    book.firstElementChild.replaceWith(returnToNum);
-    returnToNum.textContent = `${i + 1}`;
-  });
-  addBookBtn.classList.remove('hidden');
-  editBookBtn.classList.remove('hidden');
-  finishEditBtn.classList.add('hidden');
-};
-
-const closeEditBookModal = function () {
-  editBookModal.classList.add('hidden');
-  bookFormOverlay.classList.add('hidden');
-  clearBookForm();
-};
 
 const filterBooksBy = function (status) {
   const filteredBooks = myLibrary.filter((book) => book.readStatus === status);
@@ -202,15 +235,15 @@ sampleBooks(
   320,
   'Reading'
 );
-sampleBooks('Game of Thrones', 'G.R.R. Martin', '143', 'To Read');
+sampleBooks('A Game of Thrones', 'G.R.R. Martin', '694', 'To Read');
 
 displayLibrary(myLibrary);
 
-addBookBtn.addEventListener('click', addNewBook);
-addBookCloseBtn.addEventListener('click', closeAddBookModal);
+addBookBtn.addEventListener('click', addBook.addNewBook);
+addBookCloseBtn.addEventListener('click', addBook.closeAddBookModal);
 bookFormOverlay.addEventListener('click', function () {
-  closeAddBookModal();
-  closeEditBookModal();
+  addBook.closeAddBookModal();
+  editBook.closeEditBookModal();
 });
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') {
@@ -218,22 +251,22 @@ document.addEventListener('keydown', function (e) {
       !addBookModal.classList.contains('hidden') ||
       !editBookModal.classList.contains('hidden')
     ) {
-      closeAddBookModal();
-      closeEditBookModal();
+      addBook.closeAddBookModal();
+      editBook.closeEditBookModal();
     }
   }
 });
 addBookSubmit.addEventListener('click', function (e) {
   e.preventDefault();
-  newBookEntry();
+  addBook.newBookEntry();
 });
-editBookBtn.addEventListener('click', pickBookToEdit);
-finishEditBtn.addEventListener('click', finishEditing);
+editBookBtn.addEventListener('click', editBook.pickBookToEdit);
+finishEditBtn.addEventListener('click', editBook.finishEditing);
 booksList.addEventListener('click', function (e) {
   if (e.target.getAttribute('data-number') !== null)
     editBook.editBookEntry(e.target.dataset.number);
 });
-editBookCloseBtn.addEventListener('click', closeEditBookModal);
+editBookCloseBtn.addEventListener('click', editBook.closeEditBookModal);
 editBookSubmit.addEventListener('click', function (e) {
   e.preventDefault();
   editBook.saveEditBookEntry();
@@ -260,17 +293,4 @@ searchInput.addEventListener('keydown', function (e) {
   }
 });
 
-// FINISHED
-// 1. When EDIT BOOK clicked, turn # into a pencil icon.
-// 2. EDIT BOOK button will then turn into CANCEL button which will make the page to its normal state.
-// ----- 2a : Decide to hide ADD BUTTON or replace it when edit mode is on.
-// 3. When pencil icon is clicked, open a modal with the details of the corresponding book. It is in a FORM which can be edited, similar to the ADD BOOK modal. This will then edit the displayed information.
-//  ----- 3a. Change 'add-book-overlay' into something that can be reused for EDIT BOOK.
-// 4. The modal will also have a DELETE button which will delete the book entry.
-// ----- 4a : Decide to disable nav links or clicking them will cancel edit mode. Also consider this with ADD BUTTON
-
-// TODO
-// 5. Make the nav work. These links will make the page show only the clicked status.
-// 6. Make the search box work. It will make it so the only displayed book/books are the ones that matches the search criteria.
-
-// 6. RESTRUCTURE. Find a way to not call the pickBookToEdit function when editing a book, as it is looping to the whole list again just to change the number of a single book into an image.
+// FORM VALIDATION
