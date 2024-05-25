@@ -125,6 +125,7 @@ const editBookProcess = function () {
     index = num;
     editBookModal.classList.remove('hidden');
     bookFormOverlay.classList.remove('hidden');
+
     const bookToEdit = myLibrary[num];
     editBookTitle.value = bookToEdit.title;
     editBookAuthor.value = bookToEdit.author;
@@ -152,7 +153,7 @@ const editBookProcess = function () {
       const editedBook = bookEntryDetails(myLibrary[index], Number(index) + 1);
 
       booksList.children[index].remove();
-      booksList.children[index].insertAdjacentHTML('beforebegin', editedBook);
+      booksList.children[index - 1].insertAdjacentHTML('afterend', editedBook);
       pickBookToEdit();
       closeEditBookModal();
     }
@@ -185,6 +186,7 @@ const editBookProcess = function () {
   const deleteBook = function () {
     booksList.children[index].remove();
     myLibrary.splice(index, 1);
+    pickBookToEdit();
   };
 
   return {
@@ -278,7 +280,6 @@ deleteBookBtn.addEventListener('click', function (e) {
 navStatusFilter.addEventListener('click', function (e) {
   if (e.target.classList.contains('nav-link')) {
     filterBooksBy(e.target.textContent);
-    console.log(e.target.textContent);
   }
 });
 searchBookBtn.addEventListener('click', function (e) {
@@ -292,5 +293,3 @@ searchInput.addEventListener('keydown', function (e) {
     searchInput.value = '';
   }
 });
-
-// FORM VALIDATION
