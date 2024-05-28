@@ -18,11 +18,8 @@ const navStatusFilter = document.getElementById('nav-status');
 const searchInput = document.getElementById('search');
 const searchBookBtn = document.getElementById('search-button');
 
-const Book = function (title, author, pages, readStatus) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.readStatus = readStatus;
+const bookEntry = function (title, author, pages, readStatus) {
+  return { title, author, pages, readStatus };
 };
 
 const displayLibrary = function (library) {
@@ -34,7 +31,7 @@ const displayLibrary = function (library) {
 };
 
 const addBookToLibrary = function (title, author, pages, readStatus) {
-  myLibrary.push(new Book(title, author, pages, readStatus));
+  myLibrary.push(bookEntry(title, author, pages, readStatus));
   const newBook = bookEntryDetails(
     myLibrary[myLibrary.length - 1],
     myLibrary.length
@@ -143,7 +140,7 @@ const editBookProcess = function () {
     } else if (Number(editBookPages.value.trim()) < 1) {
       alert("Number of pages can't be less than 0.");
     } else {
-      myLibrary[index] = new Book(
+      myLibrary[index] = bookEntry(
         editBookTitle.value,
         editBookAuthor.value,
         editBookPages.value,
@@ -227,7 +224,7 @@ const searchBook = function () {
 };
 
 const sampleBooks = function (title, author, pages, readStatus) {
-  myLibrary.push(new Book(title, author, pages, readStatus));
+  myLibrary.push(bookEntry(title, author, pages, readStatus));
 };
 
 sampleBooks('The Hobbit', 'J.R.R. Tolkien', 295, 'Finished');
